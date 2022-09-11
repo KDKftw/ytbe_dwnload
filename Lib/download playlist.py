@@ -1,22 +1,20 @@
 import googleapiclient.discovery
 from urllib.parse import parse_qs, urlparse
-from pytube import YouTube
 import pandas as pd
 from openpyxl import load_workbook
 
-
 #extract playlist id from url
-url = 'https://www.youtube.com/playlist?list=PLBnvQD5J8X_XVY-Y4oI0tMky0ahWN5stj'
+url = 'https://www.youtube.com/watch?v=GWMSvX4Q218&list=PLBnvQD5J8X_X0Sz_SXaF6MLFZrxCtRmeD'
 query = parse_qs(urlparse(url).query, keep_blank_values=True)
 playlist_id = query["list"][0]
 
 print(f'get all playlist items links from {playlist_id}')
-youtube = googleapiclient.discovery.build("youtube", "v3", developerKey = "apikey")
+youtube = googleapiclient.discovery.build("youtube", "v3", developerKey = "AIzaSyAGVSAYIvxdbyUKPTpc2ICukbMJD5Y3S4s")
 
 request = youtube.playlistItems().list(
     part = "snippet",
     playlistId = playlist_id,
-    maxResults = 420
+    maxResults = 500
 )
 response = request.execute()
 
@@ -37,15 +35,15 @@ path = executable_path=r"C:\Users\KDK\Desktop\ytbe_dnwload"
 
 y=2
 x=0
-while y < 409:  ## length playlistu (407) + variable 2
-    df = pd.read_excel(r"C:\Users\KDK\Desktop\ytbe_dnwload\links.xlsx")
-    wb = load_workbook(r"C:\Users\KDK\Desktop\ytbe_dnwload\links.xlsx")
+while y < 442:  ## length playlistu (440) + variable 2  ##2 could be done better but for now I need to insert length of playlist + 2
+    df = pd.read_excel(r"C:\Users\KDK\Desktop\YTBE DOWNLOAD\links_liked_videos_V2.xlsx")    ##toedit
+    wb = load_workbook(r"C:\Users\KDK\Desktop\YTBE DOWNLOAD\links_liked_videos_V2.xlsx")     ##toedit
     ws = wb.worksheets[0]
 
     ws.cell(row=y, column=3).value = link[x]
     x+=1
     y += 1
-    wb.save(r"C:\Users\KDK\Desktop\ytbe_dnwload\links.xlsx")
+    wb.save(r"C:\Users\KDK\Desktop\YTBE DOWNLOAD\links_liked_videos_V2.xlsx")        ##toedit
     print(y)
 
 
